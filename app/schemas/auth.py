@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from app.schemas.user import Gender
 
@@ -15,8 +15,14 @@ class UserRegisterModel(BaseModel):
     @field_validator('birthDate')
     @classmethod
     def validate_birth_date(cls, v):
-        if v and v > datetime.now():
-            raise ValueError('Birth date cannot be in the future')
+        if v:
+            # Ensure both datetimes are timezone-aware for comparison
+            now = datetime.now(timezone.utc)
+            if v.tzinfo is None:
+                # If v is naive, assume UTC
+                v = v.replace(tzinfo=timezone.utc)
+            if v > now:
+                raise ValueError('Birth date cannot be in the future')
         return v
 
 
