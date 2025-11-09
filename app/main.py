@@ -11,7 +11,9 @@ app = FastAPI(
     openapi_url="/swagger.json",
     swagger_ui_parameters={
         "persistAuthorization": True,
-    }
+        "displayRequestDuration": True,
+    },
+    root_path=settings.ROOT_PATH,
 )
 
 # CORS middleware

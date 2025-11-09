@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api"
     PROJECT_NAME: str = "MovieCatalog.API"
     DEBUG: bool = True
+    ROOT_PATH: str = ""
     
     # CORS
     BACKEND_CORS_ORIGINS: Union[List[str], str] = ["http://localhost:3000"]
