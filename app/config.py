@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Union
+import json
 
 
 class Settings(BaseSettings):
@@ -15,13 +16,34 @@ class Settings(BaseSettings):
     # API
     API_V1_PREFIX: str = "/api"
     PROJECT_NAME: str = "MovieCatalog.API"
+    DEBUG: bool = True
     
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
+    BACKEND_CORS_ORIGINS: Union[List[str], str] = ["http://localhost:3000"]
     
     class Config:
         env_file = ".env"
         case_sensitive = True
+        
+        @classmethod
+        def parse_env_var(cls, field_name: str, raw_val: str):
+            if field_name == 'BACKEND_CORS_ORIGINS':
+                try:
+                    # Try to parse as JSON
+                    return json.loads(raw_val)
+                except json.JSONDecodeError:
+                    # If not valid JSON, treat as single value
+                    return [raw_val]
+            return raw_val
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Ensure BACKEND_CORS_ORIGINS is always a list
+        if isinstance(self.BACKEND_CORS_ORIGINS, str):
+            try:
+                self.BACKEND_CORS_ORIGINS = json.loads(self.BACKEND_CORS_ORIGINS)
+            except json.JSONDecodeError:
+                self.BACKEND_CORS_ORIGINS = [self.BACKEND_CORS_ORIGINS]
 
 
 settings = Settings()

@@ -127,6 +127,23 @@ API_V1_PREFIX=/api
 PROJECT_NAME=MovieCatalog.API
 ```
 
+#### DEBUG
+Режим отладки. В production всегда устанавливайте `False`.
+
+**Рекомендации:**
+- Development: `True` - включает подробные логи и отладку
+- Production: `False` - отключает отладочную информацию
+
+```bash
+# Development
+DEBUG=True
+
+# Production
+DEBUG=False
+```
+
+**Важно**: В текущей версии Swagger UI доступен независимо от значения DEBUG. Если вам нужно отключить документацию в production, см. документацию в `SWAGGER_FIX.md`.
+
 ### 🔓 CORS настройки
 
 #### BACKEND_CORS_ORIGINS
@@ -167,6 +184,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=60
 REFRESH_TOKEN_EXPIRE_DAYS=7
 API_V1_PREFIX=/api
 PROJECT_NAME=MovieCatalog.API [DEV]
+DEBUG=True
 BACKEND_CORS_ORIGINS=["http://localhost:3000","http://localhost:8080"]
 ```
 
@@ -179,8 +197,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES=15
 REFRESH_TOKEN_EXPIRE_DAYS=30
 API_V1_PREFIX=/api
 PROJECT_NAME=MovieCatalog.API
-BACKEND_CORS_ORIGINS=["https://myapp.com","https://www.myapp.com"]
 DEBUG=False
+BACKEND_CORS_ORIGINS=["https://myapp.com","https://www.myapp.com"]
 ```
 
 ### Docker Compose (docker-compose.yml)

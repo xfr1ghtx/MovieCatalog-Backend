@@ -4,11 +4,14 @@ from app.config import settings
 from app.api.routes import auth, user, movies, favorites, reviews
 
 app = FastAPI(
-    title="MovieCatalog.API",
+    title=settings.PROJECT_NAME,
     version="v1",
     docs_url="/swagger",
     redoc_url="/redoc",
-    openapi_url="/swagger.json"
+    openapi_url="/swagger.json",
+    swagger_ui_parameters={
+        "persistAuthorization": True,
+    }
 )
 
 # CORS middleware
